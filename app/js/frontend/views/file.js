@@ -6,14 +6,15 @@ App.View.FileListItem = Marionette.ItemView.extend({
     return loadTemplate('fileListItem.tpl', model)
   },
 
-  id: function() {
-    return 'file-' + this.model.get('id')
-  },
+  // id: function() {
+  //   return 'file-' + this.model.get('id')
+  // },
 
   events: {
   },
 
   initialize: function () {
+    this.listenTo(this.model, 'change', this.render);
   },
 
   serializeData: function() {

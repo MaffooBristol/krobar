@@ -11,15 +11,17 @@ App.View.Page = Marionette.LayoutView.extend({
   className: 'page',
 
   regions: {
-    fileListRegion: '#file-list'
+    fileListRegion: '#file-list',
+    resultListRegion: '#result-list'
   },
 
   onRender: function () {
     // $('.' + this.className).remove();
     this.$el.appendTo('section.container');
     // $('<table class="file-list"></table>').appendTo(this.$el);
-    var fileList = new App.View.FileList({});
-    this.fileListRegion.show(fileList);
+    this.fileListRegion.show(new App.View.FileList({dir: this.options.dir}));
+
+    this.resultListRegion.show(new App.View.ResultList({}));
   },
 
   show: function () {

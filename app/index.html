@@ -6,6 +6,7 @@
     <title>Krobar</title>
   </head>
   <body>
+    <input style="display:none;" id="fileDialog" type="file" nwdirectory multiple />
     <header id='header'></header>
 
     <div id='side-menu'>
@@ -46,9 +47,11 @@
 
     <!-- Backbone Models, Views and Controllers -->
     <script src='js/frontend/collections/files-collection.js'></script>
+    <script src='js/frontend/collections/results-collection.js'></script>
     <script src='js/frontend/models/file.js'></script>
     <script src='js/frontend/views/page.js'></script>
-    <script src='js/frontend/views/listview.js'></script>
+    <script src='js/frontend/views/fileList-view.js'></script>
+    <script src='js/frontend/views/resultList-view.js'></script>
     <script src='js/frontend/views/file.js'></script>
     <script src='js/frontend/views/sidebar.js'></script>
     <script src='js/frontend/controllers/home.js'></script>

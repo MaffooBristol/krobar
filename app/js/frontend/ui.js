@@ -15,11 +15,11 @@ App.loader = function (hasToShow, copy) {
   if (!hasToShow) {
     window.initialLoading = false;
 
-    // Wait a second before removing the progressbar class.
+    // Wait 10ms before removing the progressbar class.
     setTimeout(function(){
       $el.removeClass('withProgressBar').removeClass('cancellable');
       $el.find('.progress').css('width', 0.0 + '%');
-    }, 1000);
+    }, 10);
   }
 };
 
@@ -59,10 +59,7 @@ jQuery(function ($) {
   });
 
   App.Router.on('route', function () {
-    alert('route!');
-      // Ensure sidebar is hidden
-      // App.sidebar.hide();
-    });
+  });
 
 
 });

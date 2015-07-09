@@ -35,10 +35,13 @@ var App = {
   View: {},
   Model: {},
   Page: {},
-  Scrapers: {},
-  Providers: {},
-  Localization: {}
+  Localization: {},
+  Static: require(appRoot + 'js/static.js'),
+  Util: require(appRoot + 'js/util.js'),
+  Event: new Backbone.Wreqr.EventAggregator()
 };
+
+// var App = new Marionette.Application();
 
 // Render application bar icons.
 $("#header").html(loadTemplate('header.tpl', {buttons: BUTTON_ORDER}));

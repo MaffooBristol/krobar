@@ -8,10 +8,8 @@ App.getFilesCollection = function (options) {
   var Collection = Backbone.Collection.extend({
     model: App.Model.File,
     fetch: function () {
-      // var getFiles = require(appRoot + 'js/frontend/data/getFiles.js');
       var collection = this;
-
-      glob('/Users/matt/Music/tracks/DNB/25th*/**/*.mp3', function (err, files) {
+      glob(options.dir + '/**/*.mp3', function (err, files) {
         if (err) {
           console.log(err);
           return alert('Error!');
@@ -26,16 +24,17 @@ App.getFilesCollection = function (options) {
       });
     },
     getMetaData: function () {
-      var ting = Date.now();
-      async.eachLimit(this.models, 10, function (model, callback) {
+      var collection = this;
+      var startTime = Date.now();
+      async.eachLimit(collection.models, 10, function (model, callback) {
         var file = model.get('file');
         id3({file: file, type: id3.OPEN_LOCAL}, function (err, data) {
           if (err) {
             console.log(err);
             return callback(err);
           }
-          data.artist = data.artist.replace(/\0/g, '');
-          data.title = data.title.replace(/\0/g, '');
+          data.artist = data.artist !== 'undefined' && data.artist !== null ? data.artist.replace(/\0/g, '') : 'Unknown';
+          data.title = data.title !== 'undefined' && data.title !== null ? data.title.replace(/\0/g, '') : 'Unknown';
           var fileFrags = model.getShortFile().split('-').map(function (c) {
             c = c.trim();
             return c.replace(path.extname(c), '').trim();
@@ -47,7 +46,6 @@ App.getFilesCollection = function (options) {
             data.title = fileFrags[1];
             data.artist = fileFrags[0];
           }
-          // if (data.v2['initial-key'] !== undefined && data.v2['bpm'] !== 'undefined') {
           model.set({
             tags: data,
             fullTitle: data.artist + ' - ' + data.title,
@@ -56,10 +54,11 @@ App.getFilesCollection = function (options) {
             key: (data.v2['initial-key'] !== undefined) ? data.v2['initial-key'] : null,
             bpm: (data.v2['bpm'] !== undefined) ? data.v2['bpm'] : null,
           });
-          // }
+
           if (callback) callback();
         });
       }, function (err, asyncResults) {
+        App.Event.trigger('files:complete', {files: collection});
       });
     }
   });

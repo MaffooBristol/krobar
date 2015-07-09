@@ -1,10 +1,12 @@
-App.View.FileList = Marionette.ItemView.extend({
+App.View.FileList = Marionette.CollectionView.extend({
 
   template: false,
   tagName: 'table',
   className: 'file-list',
 
   initialize: function (options) {
+
+    this.childView = App.View.FileListItem;
 
     this.collection = App.getFilesCollection(options);
 
@@ -18,22 +20,11 @@ App.View.FileList = Marionette.ItemView.extend({
   },
 
   onRender: function () {
-
     if (window.initialLoading) {
       App.loader(false);
     }
-
-    var fileList = this;
-
-    $.each(this.collection.models, function (index) {
-      var $file = this.view.$el;
-      var $currentEl = fileList.$el.find('#file-'+ this.get('id') );
-      if (!$currentEl.length) {
-        $file.appendTo(fileList.$el);
-      }
-    });
-
   }
+
 }, {
   busy: false
 });
