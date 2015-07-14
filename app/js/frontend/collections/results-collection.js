@@ -1,4 +1,7 @@
-App.getResultsCollection = function (opts) {
+var path = require('path');
+var moment = require('moment');
+
+App.getResultsCollection = function (options, filesCollection) {
 
   var Collection = Backbone.Collection.extend({
     model: App.Model.File,
@@ -13,18 +16,34 @@ App.getResultsCollection = function (opts) {
     initialize: function () {
       var collection = this;
       this.resetList();
-      this.listenTo(this, 'reset', function () {
-        collection.avgBPM = Math.round(_.reduce(this.pluck('bpm'), function (a, b, c) {
-          a = parseInt(a, 10);
-          if (b === undefined || b === null) {
-            return a + a / c;
-          }
-          b = parseInt(b, 10);
-          if (Math.abs(1 - a / c / b) > 0.2 && Math.abs(1 - a / c / (b * 2)) > 0.2 && Math.abs(1 - a / c / (b / 2)) > 0.2 && c > 5) {
-            return a + a / c;
-          }
-          return a + b;
-        }) / this.size());
+
+      this.listenTo(App.Event, 'files:complete results:random', function (data) {
+        var models = filesCollection.models;
+        collection.reset(models, {silent: false});
+
+        // firstKey = Static.orders[Math.floor(Math.random() * Static.orders.length)][Math.floor(Math.random())];
+        var firstKey = App.Util.getMaxDistKey(collection);
+        var trackCount = App.Util.getTrackCount(options);
+
+        collection.reset(collection.generateList(firstKey, trackCount).models);
+
+      });
+
+      this.listenTo(App.Event, 'results:export', function (data) {
+        collection.exportPlaylist();
+      });
+
+    },
+
+    exportPlaylist: function () {
+      var collection = this;
+      var curDate = moment().format('YYYY-MM-DD--HH-mm-ss');
+      var filename = 'krobar-export--' + curDate + '.m3u';
+      App.Event.trigger('file:save:file', {filename: filename}, function (filename) {
+        if (!filename) return;
+        fs.writeFile(filename, collection.pluck('file').join('\n'), {encoding: 'utf-8'}, function () {
+          alert('File written to ' + filename + '!');
+        });
       });
     },
 
@@ -34,33 +53,54 @@ App.getResultsCollection = function (opts) {
         return model.get('key') === firstKey;
       });
       firstTrack = firstTrack[Math.floor(Math.random() * firstTrack.length)];
-      this.list.add(firstTrack);
 
-      this.getNext(firstKey, 1);
+      this.list.add(firstTrack);
+      this.getNext(firstKey, -1, length);
 
       this.list.reset(this.list.first(length), {silent: true});
-
       return this.list;
     },
 
-    getNext: function (prevKey, direction) {
-      var collection = this;
-      var direction = direction || 1;
-      var keyIndex = App.Util.getKeyIndex(prevKey);
+    _getNextKey: function (prevKey, direction) {
       var orders = App.Static.orders;
+      var keyIndex = App.Util.getKeyIndex(prevKey);
+      return orders[((keyIndex + direction % orders.length) + orders.length) % orders.length][Math.round(Math.random())];
+    },
 
-      nextKey = orders[((keyIndex + direction % orders.length) + orders.length) % orders.length][Math.round(Math.random())];
-
+    _checkAvailable: function (key) {
+      var collection = this;
       var filterFunc = function (model) {
+        return true;
         return _.indexOf(collection.list.pluck('id'), model.get('id')) < 0;
       }
+      return this.where({key: key}).filter(filterFunc).length > 0;
+    },
 
-      if (opts.preferJumps) {
-        var thisKey = (this.where({key: nextKey}).filter(filterFunc).length > 0) ? nextKey : prevKey;
-      }
-      else {
-        var thisKey = (this.where({key: prevKey}).filter(filterFunc).length > 0) ? prevKey : nextKey;
-      }
+    getNext: function (prevKey, direction, length) {
+      var collection = this;
+      var direction = direction || 1;
+      var length = length || Infinity;
+      var orders = App.Static.orders;
+
+      var thisKey, nextKey = this._getNextKey(prevKey, direction);
+
+      thisKey = function () {
+        if (!options.preferJumps) {
+          // console.log('Not liking jumps');
+          return this._checkAvailable(prevKey) ? prevKey : nextKey;
+        }
+        if (this._checkAvailable(nextKey)) {
+          // console.log('First key choice available!', nextKey);
+          return nextKey;
+        }
+        nextKey = this._getNextKey(prevKey, -direction);
+        if (this._checkAvailable(nextKey)) {
+          // console.log('Second key choice available!', nextKey);
+          return nextKey;
+        }
+        // console.log('Just using previous :(', prevKey);
+        return prevKey;
+      }.bind(this)()
 
 
       var nextTrackIndex = Math.floor(Math.random() * this.where({key: thisKey}).length);
@@ -69,7 +109,7 @@ App.getResultsCollection = function (opts) {
       if (nextTrack !== undefined && !this.list.findWhere({id: nextTrack.get('id')})) {
         this.blockedNum = 0;
         nextTrack.direction = direction > 0 ? 'Forwards' : 'Backwards';
-        if (Math.abs(1 - collection.avgBPM / nextTrack.get('bpm')) * 100 <= 4) {
+        if (Math.abs(1 - filesCollection.avgBPM / nextTrack.get('bpm')) * 100 <= 4) {
           this.list.add(nextTrack);
         }
       }
@@ -82,9 +122,10 @@ App.getResultsCollection = function (opts) {
           this.blockedNum = 0;
         }
       }
-      if (this.absBlockedNum < 100 && this.iterationNum++ < collection.size() * 10) {
+      this.iterationNum++;
+      if (this.absBlockedNum < 20 && (this.iterationNum < collection.size() * 2) && this.iterationNum <= length) {
         abc = nextTrack !== undefined ? thisKey : prevKey;
-        this.getNext(abc);
+        this.getNext(abc, direction, length);
       }
     }
 

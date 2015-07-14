@@ -59,6 +59,7 @@ jQuery(function ($) {
   });
 
   App.Router.on('route', function () {
+    // ...
   });
 
 

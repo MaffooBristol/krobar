@@ -17,6 +17,11 @@ App.View.FileListItem = Marionette.ItemView.extend({
     this.listenTo(this.model, 'change', this.render);
   },
 
+  onRender: function () {
+    this.$el[(this.model.get('bpm') === null) ? 'addClass' : 'removeClass']('no-bpm');
+    this.$el[(this.model.get('key') === null) ? 'addClass' : 'removeClass']('no-key');
+  },
+
   serializeData: function() {
     return _.extend({}, this.model.attributes, {
       file: this.model.getShortFile(),

@@ -34,6 +34,7 @@ var App = {
   Controller: {},
   View: {},
   Model: {},
+  Collection: {},
   Page: {},
   Localization: {},
   Static: require(appRoot + 'js/static.js'),

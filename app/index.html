@@ -6,14 +6,13 @@
     <title>Krobar</title>
   </head>
   <body>
-    <input style="display:none;" id="fileDialog" type="file" nwdirectory multiple />
     <header id='header'></header>
 
     <div id='side-menu'>
       <h4>Menu</h4>
       <ul class='categories'>
-      <li class='active'><a  href='#'><i class='fa fa-user'></i>Item 1</a></li>
-      <li><a href='#'><i class='fa fa-home'></i>Item 2</a></li>
+      <li class='active'><a href='#'><i class='fa fa-home'></i>Home</a></li>
+      <li><a  href='#'><i class='fa fa-user'></i>Saved playlists</a></li>
       </ul>
     </div>
 
@@ -33,8 +32,10 @@
     <script src='bower_components/jquery/dist/jquery.min.js'></script>
     <script src='bower_components/underscore/underscore-min.js'></script>
     <script src='bower_components/backbone/backbone-min.js'></script>
-    <script src='bower_components/marionette/lib/backbone.marionette.min.js'></script>
+    <script src='bower_components/marionette/lib/backbone.marionette.js'></script>
+    <script src='bower_components/marionette.sliding-view/dist/marionette.sliding-view.min.js'></script>
     <script src='js/vendor/bootstrap.tooltip.js'></script>
+    <script src='bower_components/chartjs/Chart.min.js'></script>
 
     <!-- Settings Module -->
     <script src='js/settings.js'></script>
@@ -46,17 +47,18 @@
     <script src='js/frontend/ui.js'></script>
 
     <!-- Backbone Models, Views and Controllers -->
+    <script src='js/frontend/controllers/chooseFile-controller.js'></script>
     <script src='js/frontend/collections/files-collection.js'></script>
     <script src='js/frontend/collections/results-collection.js'></script>
     <script src='js/frontend/models/file.js'></script>
     <script src='js/frontend/views/page.js'></script>
+    <script src='js/frontend/views/list-view.js'></script>
     <script src='js/frontend/views/fileList-view.js'></script>
+    <script src='js/frontend/views/fileChart-view.js'></script>
     <script src='js/frontend/views/resultList-view.js'></script>
     <script src='js/frontend/views/file.js'></script>
     <script src='js/frontend/views/sidebar.js'></script>
     <script src='js/frontend/controllers/home.js'></script>
-    <script src='js/frontend/controllers/search.js'></script>
-    <script src='js/frontend/controllers/filter.js'></script>
     <script src='js/frontend/router.js'></script>
 
   </body>
