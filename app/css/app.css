@@ -589,10 +589,10 @@ body.has-notification #notification {
 
 /* line 405, ../sass/_layout.scss */
 .loading {
-  -moz-transition: opacity 1s ease;
-  -o-transition: opacity 1s ease;
-  -webkit-transition: opacity 1s ease;
-  transition: opacity 1s ease;
+  -moz-transition: opacity 0.5s ease;
+  -o-transition: opacity 0.5s ease;
+  -webkit-transition: opacity 0.5s ease;
+  transition: opacity 0.5s ease;
   background: rgba(0, 0, 0, 0.8);
   color: #fff;
   height: calc(100% - 45px);

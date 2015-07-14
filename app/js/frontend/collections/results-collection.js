@@ -26,6 +26,7 @@ App.getResultsCollection = function (options, filesCollection) {
         var trackCount = App.Util.getTrackCount(options);
 
         collection.reset(collection.generateList(firstKey, trackCount).models);
+        collection.trigger('complete');
 
       });
 

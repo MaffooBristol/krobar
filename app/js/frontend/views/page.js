@@ -22,18 +22,23 @@ App.View.Page = Marionette.LayoutView.extend({
   events: {
     'click .action.action-files-load-folder': function () {
       App.Event.trigger('file:choose:folder', {}, function (dir) {
-        App.Event.trigger('file:update', dir);
-        App.loader(true, 'Loading folder...');
+        if (dir) {
+          App.Event.trigger('file:update', dir);
+          App.loader(true, 'Loading folder...');
+        }
       });
     },
     'click .action.action-files-load-path': function () {
       App.Event.trigger('file:choose:path', {}, function (dir) {
-        App.Event.trigger('file:update', dir);
-        App.loader(true, 'Loading path...');
+        if (dir) {
+          App.Event.trigger('file:update', dir);
+          App.loader(true, 'Loading path...');
+        }
       });
     },
     'click .action.action-results-random': function () {
       App.Event.trigger('results:random');
+      // App.loader(true, 'Regenerating random mix');
     },
     'click .action.action-results-export': function () {
       App.Event.trigger('results:export');

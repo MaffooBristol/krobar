@@ -403,7 +403,7 @@ body.has-notification {
 
 // Loading.
 .loading {
-  @include transition(opacity ease 1s);
+  @include transition(opacity ease 0.5s);
   background: rgba(0, 0, 0, .8);
   color: #fff;
   height: calc(100% - #{$header_height});

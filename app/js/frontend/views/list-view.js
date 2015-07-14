@@ -5,7 +5,7 @@ App.View.List = Marionette.CollectionView.extend({
     this.childView = App.View.FileListItem;
     this.listenTo(this.collection, 'complete', function () {
       App.loader(false);
-    })
+    });
   },
   onRender: function () {
     if (window.initialLoading) {

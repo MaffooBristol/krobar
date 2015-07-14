@@ -30,7 +30,7 @@ App.View.FileBPMBarChart = Marionette.ItemView.extend({
 
     var ctx = this.$el[0].getContext("2d");
     var data = {
-      labels: _.map(_.keys(distData), function (key, index) { return (index % 3 === 0) ? key : '' }),
+      labels: _.map(_.keys(distData), function (key, index) { if (_.size(distData) < 20) return key; return (index % 5 === 0) ? key : '' }),
       datasets: [
         {
           label: 'BPMs',
