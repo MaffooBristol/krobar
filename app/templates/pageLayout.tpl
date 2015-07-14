@@ -13,5 +13,6 @@
   <div id='result-list'>Loading...</div>
 </div>
 <div id='graphs'>
-  <div id='file-key-chart' class='key-graph'>Loading...</div>
+  <div id='file-key-radial-chart-region' class='key-graph'>Loading...</div>
+  <div id='file-bpm-bar-chart-region' class='key-graph'>Loading...</div>
 </div>

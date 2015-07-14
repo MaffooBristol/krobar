@@ -40,12 +40,12 @@ module.exports = {
     return trackSpliceNum;
   },
   getMaxDistKey: function (collection) {
-    var dists = this.getDistData(collection);
+    var dists = this.getKeyDistData(collection);
     dists = lo.extend(dists.minor, dists.major);
     var keys = lo.keys(dists);
     return lo.max(keys, function (key) {return dists[key] });
   },
-  getDistData: function (collection) {
+  getKeyDistData: function (collection) {
     var dists = lo.countBy(collection.models, function (model) {
       return model.get('key');
     });
@@ -62,6 +62,17 @@ module.exports = {
         if (dists[k]) distData[gid][k] += dists[k];
       });
     });
+
+    return distData;
+  },
+  getBPMDistData: function (collection) {
+    var bpms = lo.filter(lo.compact(collection.pluck('bpm')), function (bpm) { return bpm > 120});
+    var dists = lo.countBy(bpms);
+    var distData = {};
+
+    for (var i = lo.min(bpms); i <= lo.max(bpms); i++) {
+      distData[i] = dists[i] || 0;
+    }
 
     return distData;
   }

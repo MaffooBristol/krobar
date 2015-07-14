@@ -12,7 +12,8 @@ App.View.Page = Marionette.LayoutView.extend({
 
   regions: {
     fileListRegion: '#file-list',
-    fileChartRegion: '#file-key-chart',
+    fileKeyRadialChartRegion: '#file-key-radial-chart-region',
+    fileBPMBarChartRegion: '#file-bpm-bar-chart-region',
     resultListRegion: '#result-list',
     toolbarFilesRegion: '#toolbar-files',
     toolbarResultsRegion: '#toolbar-results'
@@ -22,11 +23,13 @@ App.View.Page = Marionette.LayoutView.extend({
     'click .action.action-files-load-folder': function () {
       App.Event.trigger('file:choose:folder', {}, function (dir) {
         App.Event.trigger('file:update', dir);
+        App.loader(true, 'Loading folder...');
       });
     },
     'click .action.action-files-load-path': function () {
       App.Event.trigger('file:choose:path', {}, function (dir) {
         App.Event.trigger('file:update', dir);
+        App.loader(true, 'Loading path...');
       });
     },
     'click .action.action-results-random': function () {
@@ -60,7 +63,12 @@ App.View.Page = Marionette.LayoutView.extend({
       options: this.options
     }));
 
-    this.fileChartRegion.show(new App.View.FileChart({
+    this.fileKeyRadialChartRegion.show(new App.View.FileKeyRadialChart({
+      collection: filesCollection,
+      options: this.options
+    }));
+
+    this.fileBPMBarChartRegion.show(new App.View.FileBPMBarChart({
       collection: filesCollection,
       options: this.options
     }));

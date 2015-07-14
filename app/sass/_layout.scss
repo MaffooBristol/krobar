@@ -37,51 +37,10 @@ button:hover { cursor: pointer; }
 :focus { outline: 0; }
 a { text-decoration: none; }
 
-// Useful Stuff
 .page {
-  @include scrollable();
-  // background: $body-bg;
   height: 100%;
   width: 100%;
 }
-
-// Buttons
-.btn {
-  @include transition(background-color ease .3s);
-  color: #999999;
-  display: inline-block;
-  border-radius: 3px;
-  font-size: 13px;
-  line-height: 18px;
-  padding: 7px 12px;
-  background: $nice-blue;
-  cursor: pointer;
-  background-image: linear-gradient(to bottom, #3076ce 0%, #175ab0 100%);
-  color: #FFF;
-  font-weight: bold;
-  text-shadow: 0 -1px 0 rgba(0,0,0,0.2);
-}
-
-.btn-action {
-  background: #bb2720;
-  border: 0;
-  border-radius: 5px;
-  color: #FFF;
-  display: block;
-  font-family: Helvetica, sans-serif;
-  font-size: 14px;
-  font-weight: 700;
-  margin-top: 10px;
-  padding: 12px 0;
-  text-align: center;
-  text-decoration: none;
-  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
-  text-transform: uppercase;
-  width: 155px;
-}
-
-/*
--- App */
 
 // Header bar
 #header {
@@ -249,7 +208,7 @@ a { text-decoration: none; }
 // Catalog select
 #side-menu {
   @include box-sizing(border-box);
-  @include scrollable();
+  // @include scrollable();
   width: 220px;
   position: absolute;
   top: $header_height;
@@ -365,6 +324,7 @@ a { text-decoration: none; }
 }
 
 #file-list, #result-list {
+  @include scrollable();
   background: white;
   padding: 5px 0px;
   width: 49.5%;
@@ -372,8 +332,6 @@ a { text-decoration: none; }
   font-size: 0.7em;
   border: 1px solid darken($bgcolor, 10%);
   // height: 100%;
-  overflow: hidden;
-  overflow-y: scroll;
   float: left;
   &#file-list {
     margin-right: 1%;
@@ -386,7 +344,7 @@ a { text-decoration: none; }
       }
     }
     td {
-      padding: 5px 0;
+      padding: 5px;
       border-bottom: 1px solid #eee;
       &:first-child {
         padding-left: 15px;
@@ -401,6 +359,7 @@ a { text-decoration: none; }
 .key-graph {
   // width: 140px;
   display: inline-block;
+  vertical-align: top;
   height: 140px;
   padding: 10px;
   background: white;

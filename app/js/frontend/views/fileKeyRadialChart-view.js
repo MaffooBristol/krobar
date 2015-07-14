@@ -1,7 +1,7 @@
-App.View.FileChart = Marionette.ItemView.extend({
+App.View.FileKeyRadialChart = Marionette.ItemView.extend({
   template: false,
   tagName: 'canvas',
-  id: 'file-chart',
+  id: 'file-key-radial-chart',
   attributes: {
     width: 160,
     height: 120
@@ -24,11 +24,11 @@ App.View.FileChart = Marionette.ItemView.extend({
       datasetFill : false,
     });
 
-    if (!$('#file-chart').length || !this.collection.length) return;
+    if (!this.$el.length || !this.collection.length) return;
 
-    var distData = App.Util.getDistData(this.collection);
+    var distData = App.Util.getKeyDistData(this.collection);
 
-    var ctx = document.getElementById('file-chart').getContext("2d");
+    var ctx = this.$el[0].getContext("2d");
     var data = {
       labels: _.map(App.Static.orders, function (key) {
         return key[0] + '/' + key[1];

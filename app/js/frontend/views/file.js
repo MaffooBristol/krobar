@@ -18,6 +18,7 @@ App.View.FileListItem = Marionette.ItemView.extend({
   },
 
   onRender: function () {
+    this.$el.find('td.cell-index').text(this.model.collection.indexOf(this.model));
     this.$el[(this.model.get('bpm') === null) ? 'addClass' : 'removeClass']('no-bpm');
     this.$el[(this.model.get('key') === null) ? 'addClass' : 'removeClass']('no-key');
   },
