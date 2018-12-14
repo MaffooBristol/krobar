@@ -26,7 +26,6 @@ App.Controller.ChooseFile = Marionette.Object.extend({
         chooser.remove();
       }
     });
-    chooser[0].files.append(new File("", ""))
     chooser.trigger('click');
   },
   choosePath: function (opts, callback) {

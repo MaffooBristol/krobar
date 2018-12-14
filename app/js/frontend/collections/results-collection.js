@@ -21,11 +21,18 @@ App.getResultsCollection = function (options, filesCollection) {
         var models = filesCollection.models;
         collection.reset(models, {silent: false});
 
-        // firstKey = Static.orders[Math.floor(Math.random() * Static.orders.length)][Math.floor(Math.random())];
         var firstKey = App.Util.getMaxDistKey(collection);
         var trackCount = App.Util.getTrackCount(options);
 
-        collection.reset(collection.generateList(firstKey, trackCount).models);
+        var bestCollection = new Backbone.Collection({});
+        for (var i = 0; i < 10; i++) {
+          firstKey = App.Static.orders[Math.floor(Math.random() * App.Static.orders.length)][Math.floor(Math.random())];
+          var newCollection = collection.generateList(firstKey, trackCount);
+          if (newCollection.length > bestCollection.length) {
+            bestCollection = newCollection;
+          }
+        };
+        collection.reset(bestCollection.models);
         collection.trigger('complete');
 
       });
@@ -88,21 +95,22 @@ App.getResultsCollection = function (options, filesCollection) {
       thisKey = function () {
         if (!options.preferJumps) {
           // console.log('Not liking jumps');
-          return this._checkAvailable(prevKey) ? prevKey : nextKey;
+          if (this._checkAvailable(prevKey)) {
+            return prevKey;
+          }
         }
         if (this._checkAvailable(nextKey)) {
-          // console.log('First key choice available!', nextKey);
+          console.log('First key choice available!', nextKey);
           return nextKey;
         }
         nextKey = this._getNextKey(prevKey, -direction);
         if (this._checkAvailable(nextKey)) {
-          // console.log('Second key choice available!', nextKey);
+          console.log('Second key choice available!', nextKey);
           return nextKey;
         }
         // console.log('Just using previous :(', prevKey);
         return prevKey;
-      }.bind(this)()
-
+      }.bind(this)();
 
       var nextTrackIndex = Math.floor(Math.random() * this.where({key: thisKey}).length);
       var nextTrack = this.where({key: thisKey})[nextTrackIndex];

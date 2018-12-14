@@ -1,8 +1,8 @@
 {
   "name": "Krobar",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "authors": [
-    "Matt Fletcher <matt@soniflow.com>"
+    "Matt Fletcher <mattflet@gmail.com>"
   ],
   "description": "Chromatic mixing tool for DJs",
   "keywords": [
@@ -22,6 +22,7 @@
     "marionette": "~2.4.2",
     "chartjs": "~1.0.2",
     "d3": "~3.5.6",
-    "rickshaw": "~1.5.1"
+    "rickshaw": "~1.5.1",
+    "jquery": "^3.3.1"
   }
 }

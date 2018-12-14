@@ -42,7 +42,7 @@ var App = {
   Event: new Backbone.Wreqr.EventAggregator()
 };
 
-// var App = new Marionette.Application();
+//var App = new Marionette.Application();
 
 // Render application bar icons.
 $("#header").html(loadTemplate('header.tpl', {buttons: BUTTON_ORDER}));
