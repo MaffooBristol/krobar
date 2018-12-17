@@ -1,5 +1,4 @@
-module.exports = function(grunt) {
-
+module.exports = function (grunt) {
   grunt.initConfig({
     nwjs: {
       options: {
@@ -9,12 +8,11 @@ module.exports = function(grunt) {
         win: false,
         linux32: false,
         linux64: false,
-				platforms: ['osx64'],
+        platforms: ['osx64'],
       },
       src: './app/**/*'
     },
   });
-
   grunt.loadNpmTasks('grunt-nw-builder');
   grunt.registerTask('default', ['nwjs']);
 };
