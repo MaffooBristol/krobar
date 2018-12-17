@@ -2,6 +2,7 @@
 
   const path = require('path');
   const moment = require('moment');
+  const _ = require('lodash');
 
   App.getResultsCollection = function (options, filesCollection) {
     const Collection = Backbone.Collection.extend({
@@ -66,13 +67,23 @@
         });
       },
 
-      generateList (firstKey, length) {
+      getTracksOfKey: (tracks = [], keyRow) => {
+        return tracks.find((track) => {
+          return track.get('key') === keyRow[0] || track.get('key') === keyRow[1];
+        });
+      },
+
+      generateList (firstKey, trackCount) {
         this.resetList();
 
         const sortedTracks = this.models.sort((a, b) => {
           const aIndex = this.getKeyIndex(a);
           const bIndex = this.getKeyIndex(b);
-          return aIndex - bIndex;
+          const value = aIndex - bIndex;
+          if (value === 0) {
+            return Math.random() - 0.5;
+          }
+          return value;
         });
 
         const mappedTracks = sortedTracks.map((track, index) => {
@@ -81,7 +92,15 @@
           return track;
         });
 
-        this.list.reset(mappedTracks);
+        const groupedTracks = _.groupBy(mappedTracks, (track) => {
+          return this.getKeyIndex(track);
+        });
+
+        _.each(groupedTracks, (group, key) => {
+          return group.slice(0, Math.ceil(trackCount / 12)).map((track) => {
+            this.list.add(new App.Model.File(track.toJSON()), { silent: true });
+          });
+        });
 
         return this.list;
 
