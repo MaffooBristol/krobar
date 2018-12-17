@@ -1,7 +1,7 @@
 /* Global elements */
 
 * {
-  box-sizing: border-box;
+  box-sizing: border-box !important;
 }
 
 .clearfix {
@@ -44,7 +44,6 @@ a { text-decoration: none; }
 
 // Header bar
 #header {
-  @include box-sizing(border-box);
   border-bottom: 1px solid darken($header-color, 20%);
   height: $header_height;
   left: 0;
@@ -149,7 +148,6 @@ a { text-decoration: none; }
 
 // Update Notifications
 #notification {
-  @include box-sizing(border-box);
   position: absolute;
   top: $header_height;
   height: $notification_height;
@@ -207,7 +205,6 @@ a { text-decoration: none; }
 
 // Catalog select
 #side-menu {
-  @include box-sizing(border-box);
   // @include scrollable();
   width: 220px;
   position: absolute;
@@ -237,7 +234,7 @@ a { text-decoration: none; }
       margin-bottom: 5px;
 
       a {
-        @include transition(background-color ease .3s);
+        transition: background-color ease .3s;
         color: lighten($header-color, 50%);
         display: block;
         padding: 8px 10px 8px 20px;
@@ -325,6 +322,7 @@ a { text-decoration: none; }
 
 #file-list, #result-list {
   @include scrollable();
+  overflow-x: scroll;
   background: white;
   padding: 5px 0px;
   width: 49.5%;
@@ -346,6 +344,9 @@ a { text-decoration: none; }
     td {
       padding: 5px;
       border-bottom: 1px solid #eee;
+      white-space: nowrap;
+      max-width: 150px;
+      overflow: hidden;
       &:first-child {
         padding-left: 15px;
       }
@@ -403,7 +404,7 @@ body.has-notification {
 
 // Loading.
 .loading {
-  @include transition(opacity ease 0.5s);
+  transition: opacity ease 0.5s;
   background: rgba(0, 0, 0, .8);
   color: #fff;
   height: calc(100% - #{$header_height});
@@ -426,7 +427,7 @@ body.has-notification {
   }
 
   .wrapper {
-    @include translateY(-100%);
+    transform: translateY(-100%);
     font-size: 40px;
     position: absolute;
     top: 50%;
@@ -458,7 +459,7 @@ body.has-notification {
     padding: 3px;
 
     .progress {
-      @include transition(width 0.2s ease);
+      transition: width 0.2s ease;
       display: block;
       height: 14px;
       width: 0%;

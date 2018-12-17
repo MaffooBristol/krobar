@@ -62,5 +62,4 @@ jQuery(function ($) {
     // ...
   });
 
-
 });

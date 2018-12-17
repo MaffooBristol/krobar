@@ -7,3 +7,8 @@
 <% } %>
 <td class='cell-key'><%- key %></td>
 <td class='cell-bpm'><%- bpm %></td>
+<td class='cell-rating'><%- rating %></td>
+<td class='cell-playtime'><%- playtime %></td>
+<td class='cell-loudness' style='background-color: rgba(<%- 122 + (loudness * 20) %>, <%- 122 - (loudness * 20) %>, 0);'><%- Math.round(loudness) %></td>
+<td class='cell-release-date'><%- release_date %></td>
+<% if (gap) { %><td class='cell-gap'>GAP!!</td><% } %>

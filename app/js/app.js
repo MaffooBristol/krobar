@@ -23,9 +23,17 @@ else if (isOSX) {
   BUTTON_ORDER = ['close', 'min', 'max'];
 }
 
+var templates = {};
+
 var loadTemplate = function (path, opts) {
   var opts = opts || {};
-  var tpl = _.template(fs.readFileSync(appRoot + 'templates/' + path, 'utf-8'));
+  if (templates[path] !== undefined) {
+    var tpl = templates[path];
+  }
+  else {
+    var tpl = _.template(fs.readFileSync(appRoot + 'templates/' + path, 'utf-8'));
+    templates[path] = tpl;
+  }
   return tpl(opts);
 }
 

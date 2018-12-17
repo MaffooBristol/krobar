@@ -1,7 +1,7 @@
 {
   "name": "KrobarApp",
   "main": "index.html",
-  "version": "0.0.2",
+  "version": "1.0.0-alpha",
   "single-instance": true,
   "window": {
     "title": "Krobar",
@@ -19,6 +19,7 @@
     "adm-zip": "0.4.13",
     "async": "2.6.x",
     "cheerio": "1.0.0-rc.2",
+    "dotenv": "^6.2.0",
     "fluent-ffmpeg": "^2.0.1",
     "glob": "^7.1.3",
     "i18n": "0.8.3",
@@ -28,13 +29,18 @@
     "lodash": "^4.17.11",
     "md5": "^2.2.1",
     "moment": "^2.10.3",
+    "node-sass": "^4.11.0",
     "node-uuid": "1.4.8",
     "peerflix": "0.39.0",
     "q": "2.0.x",
     "request": "2.88.0",
     "rimraf": "^2.2.6",
     "watch": "^1.0.2",
+    "xml2js": "^0.4.19",
     "xmlrpc": "1.3.2"
   },
-  "chromium-args": "--child-clean-exit"
+  "chromium-args": "--child-clean-exit --enable-logging=stderr",
+  "devDependencies": {
+    "nw-dev": "^3.0.1"
+  }
 }

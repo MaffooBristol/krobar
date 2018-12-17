@@ -50,14 +50,14 @@ App.View.Page = Marionette.LayoutView.extend({
     this.$el.appendTo('section.container');
 
     this.options = _.extend(this.options, {
-      preferJumps: false,
-      mixLength:   60,
-      mixSpeed:    'medium'
+      allowJumps: true,
+      mixLength: 60,
+      mixSpeed: 'fast'
     });
 
-    this.options.preferJumps = true;
-    this.options.mixLength   = 60;
-    this.options.mixSpeed    = 'slow';
+    // this.options.allowJumps = false;
+    // this.options.mixLength   = 60;
+    // this.options.mixSpeed    = 'slow';
 
     var filesCollection = App.getFilesCollection(this.options || {});
 

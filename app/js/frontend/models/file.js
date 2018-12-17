@@ -3,10 +3,16 @@ var path = require('path');
 App.Model.File = Backbone.Model.extend({
 
   defaults: {
+    type: null,
     title: false,
     tags: {},
     key: null,
-    bpm: null
+    bpm: null,
+    rating: 0,
+    playtime: null,
+    loudness: null,
+    release_date: null,
+    gap: false,
   },
 
   getShortFile: function() {

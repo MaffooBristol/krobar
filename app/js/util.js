@@ -43,14 +43,14 @@ module.exports = {
     var dists = this.getKeyDistData(collection);
     dists = lo.extend(dists.minor, dists.major);
     var keys = lo.keys(dists);
-    return lo.max(keys, function (key) {return dists[key] });
+    return lo.maxBy(keys, function (key) { return dists[key] });
   },
   getKeyDistData: function (collection) {
     var dists = lo.countBy(collection.models, function (model) {
       return model.get('key');
     });
 
-    var distData = {major: {}, minor: {}};
+    var distData = { major: {}, minor: {} };
 
     lo.each(Static.orders, function (order) {
       distData.major[order[0]] = 0;
