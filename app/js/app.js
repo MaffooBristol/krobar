@@ -1,61 +1,59 @@
 
-var appRoot = './';
-var isDebug = gui.App.argv.indexOf('--debug') > -1;
-var win     = gui.Window.get();
+const appRoot = './';
 
-var gui  = require('nw.gui');
-var os   = require('os');
-var path = require('path');
-var fs   = require('fs');
-var url  = require('url');
-var i18n = require("i18n");
+const gui = require('nw.gui');
+const os = require('os');
+const path = require('path');
+const fs = require('fs');
+const url = require('url');
+const i18n = require('i18n');
 
-var isWin   = process.platform === 'win32';
-var isLinux = process.platform === 'linux';
-var isOSX   = process.platform === 'darwin';
+const isWin = process.platform === 'win32';
+const isLinux = process.platform === 'linux';
+const isOSX = process.platform === 'darwin';
 
-var BUTTON_ORDER = ['close', 'min', 'max'];
+const isDebug = gui.App.argv.indexOf('--debug') > -1;
+const win = gui.Window.get();
 
+let BUTTON_ORDER = ['close', 'min', 'max'];
 if (isWin || isLinux) {
   BUTTON_ORDER = ['min', 'max', 'close'];
 }
-else if (isOSX) {
-  BUTTON_ORDER = ['close', 'min', 'max'];
-}
 
-var templates = {};
+const templates = {};
 
-var loadTemplate = function (path, opts) {
+const loadTemplate = function (path, opts) {
   var opts = opts || {};
+  let tpl;
   if (templates[path] !== undefined) {
-    var tpl = templates[path];
+    tpl = templates[path];
   }
   else {
-    var tpl = _.template(fs.readFileSync(appRoot + 'templates/' + path, 'utf-8'));
+    tpl = _.template(fs.readFileSync(`${appRoot}templates/${path}`, 'utf-8'));
     templates[path] = tpl;
   }
   return tpl(opts);
-}
+};
 
 // Global app skeleton for Backbone.
-var App = {
+const App = {
   Controller: {},
   View: {},
   Model: {},
   Collection: {},
   Page: {},
   Localization: {},
-  Static: require(appRoot + 'js/static.js'),
-  Util: require(appRoot + 'js/util.js'),
-  Event: new Backbone.Wreqr.EventAggregator()
+  Static: require(`${appRoot}js/static.js`),
+  Util: require(`${appRoot}js/util.js`),
+  Event: new Backbone.Wreqr.EventAggregator(),
 };
 
-//var App = new Marionette.Application();
+// var App = new Marionette.Application();
 
 // Render application bar icons.
-$("#header").html(loadTemplate('header.tpl', {buttons: BUTTON_ORDER}));
+$('#header').html(loadTemplate('header.tpl', { buttons: BUTTON_ORDER }));
 
-win.menu = require(appRoot + 'js/menu.js')(gui, isDebug);
+win.menu = require(`${appRoot}js/menu.js`)(gui, isDebug);
 
 // Set the app title (for Windows mostly).
 win.title = 'Krobar';
@@ -64,17 +62,17 @@ win.title = 'Krobar';
 win.focus();
 
 // Don't allow new windows, multiple tabs, etc.
-win.on('new-win-policy', function (frame, url, policy) {
+win.on('new-win-policy', (frame, url, policy) => {
   policy.ignore();
 });
 
-var preventDefault = function(e) {
+const preventDefault = function(e) {
   e.preventDefault();
-}
+};
 
 // Prevent dropping files into the window
-window.addEventListener("dragover", preventDefault, false);
-window.addEventListener("drop", preventDefault, false);
+window.addEventListener('dragover', preventDefault, false);
+window.addEventListener('drop', preventDefault, false);
 
 // Prevent dragging files outside the window
-window.addEventListener("dragstart", preventDefault, false);
+window.addEventListener('dragstart', preventDefault, false);

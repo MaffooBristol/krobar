@@ -1,27 +1,25 @@
 module.exports = function (gui, isDebug) {
+  const win = gui.Window.get();
 
-  var win = gui.Window.get();
-
-  var menuBar = new gui.Menu({type: "menubar"});
-  menuBar.createMacBuiltin("Krobar");
+  const menuBar = new gui.Menu({ type: 'menubar' });
+  menuBar.createMacBuiltin('Krobar');
 
   // Add debug menu items.
   if (isDebug) {
-    var developerSubmenu = new gui.Menu();
-    var developerItem = new gui.MenuItem({
+    const developerSubmenu = new gui.Menu();
+    const developerItem = new gui.MenuItem({
       label: 'Developer',
-      submenu: developerSubmenu
+      submenu: developerSubmenu,
     });
-    var debugItem = new gui.MenuItem({
+    const debugItem = new gui.MenuItem({
       label: 'Show developer tools',
-      click: function () {
+      click () {
         win.showDevTools();
-      }
+      },
     });
     menuBar.append(developerItem);
     developerSubmenu.append(debugItem);
   }
 
   return menuBar;
-
-}
+};

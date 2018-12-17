@@ -1,15 +1,17 @@
-fs    = require('fs');
-glob  = require('glob');
-async = require('async');
+(function () {
 
-module.exports = function (path, callback) {
+  const fs = require('fs');
+  const glob = require('glob');
+  const async = require('async');
 
-  glob(path, function (err, files) {
-    if (err) {
-      // console.error(err);
-      return callback(err);
-    }
-    return callback(null, files);
-  });
+  module.exports = function (path, callback) {
+    glob(path, (err, files) => {
+      if (err) {
+        // console.error(err);
+        return callback(err);
+      }
+      return callback(null, files);
+    });
+  };
 
-}
+})(App);

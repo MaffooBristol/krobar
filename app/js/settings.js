@@ -1,25 +1,25 @@
 Settings = {
 
   _defaultSettings: {
-    version: "0.0.1",
-    connectionCheckUrl: "http://www.google.com"
+    version: '0.0.1',
+    connectionCheckUrl: 'http://www.google.com',
   },
 
-  setup: function (forceReset) {
+  setup (forceReset) {
     gui = require('nw.gui');
-    var currentVersion = gui.App.manifest.version;
+    const currentVersion = gui.App.manifest.version;
     Settings.getHardwareInfo();
   },
 
-  get: function (variable) {
-    return localStorage['settings_' + variable];
+  get (variable) {
+    return localStorage[`settings_${variable}`];
   },
 
-  set: function (variable, newValue) {
-    localStorage.setItem('settings_' + variable, newValue);
+  set (variable, newValue) {
+    localStorage.setItem(`settings_${variable}`, newValue);
   },
 
-  getHardwareInfo: function() {
+  getHardwareInfo() {
     if (/64/.test(process.arch)) {
       Settings.set('arch', 'x64');
     }
@@ -41,8 +41,7 @@ Settings = {
         Settings.set('os', 'unknown');
         break;
     }
-  }
-
+  },
 
 };
 

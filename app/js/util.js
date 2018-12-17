@@ -1,17 +1,19 @@
-var lo, Static, appRoot;
+let lo; let Static; let
+  appRoot;
 
 lo = require('lodash');
 
-Static = require(__dirname + '/static.js');
+Static = require(`${__dirname}/static.js`);
 
 module.exports = {
-  getKeyIndex: function (key) {
-    return lo.findIndex(Static.orders, function (o) {
+  getKeyIndex (key) {
+    return lo.findIndex(Static.orders, (o) => {
       return ~o.indexOf(key);
     });
   },
-  hashFilter: function (hash, testFunc) {
-    var filtered, key, keys, i;
+  hashFilter (hash, testFunc) {
+    let filtered; let key; let keys; let
+      i;
     keys = Object.keys(hash); filtered = {};
     for (i = 0; i < keys.length; i++) {
       key = keys[i];
@@ -21,8 +23,8 @@ module.exports = {
     }
     return filtered;
   },
-  getTrackCount: function (opts) {
-    var trackSpliceNum = 9999;
+  getTrackCount (opts) {
+    let trackSpliceNum = 9999;
 
     if (opts.mixSpeed === 'very slow') {
       trackSpliceNum = Math.ceil(opts.mixLength / 5);
@@ -39,42 +41,46 @@ module.exports = {
 
     return trackSpliceNum;
   },
-  getMaxDistKey: function (collection) {
-    var dists = this.getKeyDistData(collection);
+  getMaxDistKey (collection) {
+    let dists = this.getKeyDistData(collection);
     dists = lo.extend(dists.minor, dists.major);
-    var keys = lo.keys(dists);
-    return lo.maxBy(keys, function (key) { return dists[key] });
+    const keys = lo.keys(dists);
+    return lo.maxBy(keys, (key) => {
+      return dists[key];
+    });
   },
-  getKeyDistData: function (collection) {
-    var dists = lo.countBy(collection.models, function (model) {
+  getKeyDistData (collection) {
+    const dists = lo.countBy(collection.models, (model) => {
       return model.get('key');
     });
 
-    var distData = { major: {}, minor: {} };
+    const distData = { major: {}, minor: {} };
 
-    lo.each(Static.orders, function (order) {
+    lo.each(Static.orders, (order) => {
       distData.major[order[0]] = 0;
       distData.minor[order[1]] = 0;
     });
 
-    lo.each(distData, function (group, gid) {
-      lo.each(group, function (dist, k) {
+    lo.each(distData, (group, gid) => {
+      lo.each(group, (dist, k) => {
         if (dists[k]) distData[gid][k] += dists[k];
       });
     });
 
     return distData;
   },
-  getBPMDistData: function (collection) {
-    var bpms = lo.filter(lo.compact(collection.pluck('bpm')), function (bpm) { return bpm > 120});
-    var dists = lo.countBy(bpms);
-    var distData = {};
+  getBPMDistData (collection) {
+    const bpms = lo.filter(lo.compact(collection.pluck('bpm')), (bpm) => {
+      return bpm > 120;
+    });
+    const dists = lo.countBy(bpms);
+    const distData = {};
 
-    for (var i = lo.min(bpms); i <= lo.max(bpms); i++) {
+    for (let i = lo.min(bpms); i <= lo.max(bpms); i++) {
       distData[i] = dists[i] || 0;
     }
 
     return distData;
-  }
+  },
 
-}
+};

@@ -1,33 +1,37 @@
-App.View.FileListItem = Marionette.ItemView.extend({
-  tagName: 'tr',
-  className: 'file',
-  model: App.Model.File,
-  template: function (model) {
-    return loadTemplate('fileListItem.tpl', model)
-  },
+(function (App) {
 
-  // id: function() {
-  //   return 'file-' + this.model.get('id')
-  // },
+  App.View.FileListItem = Marionette.ItemView.extend({
+    tagName: 'tr',
+    className: 'file',
+    model: App.Model.File,
+    template (model) {
+      return loadTemplate('fileListItem.tpl', model);
+    },
 
-  events: {
-  },
+    // id: function() {
+    //   return 'file-' + this.model.get('id')
+    // },
 
-  initialize: function () {
-    this.listenTo(this.model, 'change', this.render);
-  },
+    events: {
+    },
 
-  onRender: function () {
-    this.$el.find('td.cell-index').text(this.model.collection.indexOf(this.model));
-    this.$el[(this.model.get('bpm') === null) ? 'addClass' : 'removeClass']('no-bpm');
-    this.$el[(this.model.get('key') === null) ? 'addClass' : 'removeClass']('no-key');
-  },
+    initialize () {
+      this.listenTo(this.model, 'change', this.render);
+    },
 
-  serializeData: function() {
-    return _.extend({}, this.model.attributes, {
-      file: this.model.getShortFile(),
-      title: this.model.getShortTitle()
-    });
-  }
+    onRender () {
+      this.$el.find('td.cell-index').text(this.model.collection.indexOf(this.model));
+      this.$el[(this.model.get('bpm') === null) ? 'addClass' : 'removeClass']('no-bpm');
+      this.$el[(this.model.get('key') === null) ? 'addClass' : 'removeClass']('no-key');
+    },
 
-});
+    serializeData() {
+      return _.extend({}, this.model.attributes, {
+        file: this.model.getShortFile(),
+        title: this.model.getShortTitle(),
+      });
+    },
+
+  });
+
+})(App);
